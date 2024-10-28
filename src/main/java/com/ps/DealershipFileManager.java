@@ -1,14 +1,11 @@
 package com.ps;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.List;
 
 public class DealershipFileManager {
-    public static Dealership getDealership(){
-        try{
+    public static Dealership getDealership() {
+        try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("inventory.csv"));
 
             String firstLine = bufferedReader.readLine();
@@ -20,7 +17,7 @@ public class DealershipFileManager {
 
             String input;
 
-            while((input = bufferedReader.readLine()) != null) {
+            while ((input = bufferedReader.readLine()) != null) {
                 String[] splitVehicle = input.split("\\|");
                 int vin = Integer.parseInt(splitVehicle[0]);
                 int year = Integer.parseInt(splitVehicle[1]);
@@ -39,13 +36,14 @@ public class DealershipFileManager {
 
             return dealership;
 
-        } catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
         return null;
     }
-    public static void saveDealership(Dealership dealership){
+
+    public static void saveDealership(Dealership dealership) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv"));
             String firstLine = String.format("%s|%s|%s\n",
@@ -57,7 +55,7 @@ public class DealershipFileManager {
             bufferedWriter.write(firstLine);
 
             List<Vehicle> vehicles = dealership.getAllVehicles();
-            for(Vehicle vehicle: vehicles){
+            for (Vehicle vehicle : vehicles) {
                 String vehicleLine = String.format("%d|%d|%s|%s|%s|%s|%d|%.2f\n",
                         vehicle.getVin(),
                         vehicle.getYear(),
@@ -71,8 +69,9 @@ public class DealershipFileManager {
                 bufferedWriter.write(vehicleLine);
             }
             bufferedWriter.close();
-        } catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
+
 }
